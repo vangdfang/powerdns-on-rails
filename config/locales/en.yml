@@ -114,6 +114,7 @@ en:
   layout_menu_templates: "Templates"
   layout_menu_macros: "Macros"
   layout_menu_logs: "Logs"
+  layout_menu_my_user: "My User"
   layout_menu_users: "Users"
   layout_menu_reports: "Reports"
   layout_menu_logout: "Logout"

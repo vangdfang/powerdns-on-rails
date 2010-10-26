@@ -20,9 +20,10 @@
       = link_to image_tag('user_edit.png'), edit_user_path( @user )
       = link_to t(:generic_change), edit_user_path( @user )
       &nbsp;&nbsp;&nbsp;
-      = link_to image_tag('user_delete.png'), user_path( @user ), :method => :delete, :confirm => t(:confirm_user_remove)
-      = link_to t(:generic_remove), user_path( @user ), :method => :delete, :confirm => t(:confirm_user_remove)
-      - unless @user.admin?
-        &nbsp;&nbsp;&nbsp;
-        = link_to image_tag('help.png') , :controller => :reports , :action => :view , :id => @user
-        = link_to t(:label_user_detail) , :controller => :reports , :action => :view , :id => @user
+      - if current_user.admin?
+        = link_to image_tag('user_delete.png'), user_path( @user ), :method => :delete, :confirm => t(:confirm_user_remove)
+        = link_to t(:generic_remove), user_path( @user ), :method => :delete, :confirm => t(:confirm_user_remove)
+        - unless @user.admin?
+          &nbsp;&nbsp;&nbsp;
+          = link_to image_tag('help.png') , :controller => :reports , :action => :view , :id => @user
+          = link_to t(:label_user_detail) , :controller => :reports , :action => :view , :id => @user

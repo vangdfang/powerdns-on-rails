@@ -96,6 +96,12 @@ class RecordTemplate < ActiveRecord::Base
       end unless record.valid?
     end
   end
+
+  # By default records don't support priorities. Those who do can overwrite
+  # this in their own classes.
+  def supports_prio?
+    record_type == 'MX' || record_type == 'SRV'
+  end
   
   private
   

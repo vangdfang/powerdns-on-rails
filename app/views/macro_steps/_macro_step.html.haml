@@ -20,7 +20,7 @@
           %td{ :width => 80 }= f.select :record_type, Macro.record_types.map { |t| [t,t] }
           %td{ :width => 220 }= f.text_field :name, :size => 15
           %td{ :width => 30 }
-            - if macro_step.record_type == 'MX'
+            - if macro_step.supports_prio?
               = f.text_field :prio, :size => 2
           %td{ :width => 220 }= f.text_field :content, :size => 15
           %td{ :width => 40 }

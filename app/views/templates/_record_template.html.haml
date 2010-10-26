@@ -79,7 +79,7 @@
           %td{ :width => 50 }= f.text_field :ttl, :size => 3
           %td{ :width => 30 }= record_template.record_type
           %td{ :width => 30 }
-            - if record_template.record_type == 'MX'
+            - if record_template.supports_prio?
               = f.text_field :prio, :size => 1
           %td{ :width => 250 }= f.text_field :content, :size => 15
 

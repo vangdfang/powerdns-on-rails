@@ -1,13 +1,16 @@
 class UsersController < ApplicationController
   
   before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge, :show, :edit, :update]
-  require_role "admin"
+  require_role "admin", :only => [:index, :new, :create, :suspend, :unsuspend, :destroy, :purge]
 
   def index
     @users = User.find( :all, :order => 'login' )
   end
   
   def show
+    unless current_user.admin?
+      @user = current_user
+    end
   end
   
   def new
@@ -38,13 +41,26 @@ class UsersController < ApplicationController
   end
   
   def edit
-    render :action => :form
+    if current_user.admin? or @user == current_user
+      render :action => :form
+    else
+      redirect_to :root and return
+    end
   end
   
   def update
     # strip out blank params
     params[:user].delete_if { |k,v| v.blank? }
-    
+
+    protected = [ 'admin', 'token_user' ]
+    if !current_user.admin?
+      params[:user].delete_if { |k,v| protected.include?(k) }
+    end
+
+    unless current_user.admin? or @user == current_user
+      redirect_to :root and return
+    end
+
     if @user.update_attributes( params[:user] )
       # update our roles
       @user.roles.clear

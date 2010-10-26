@@ -62,25 +62,25 @@
   - remote_form_for( @record_template, :html => { :id => 'record-form' } ) do |f|
     = hidden_field( :zone_template, :id )
     %table.grid
-      %tr
+      %tr.all
         %td= t :label_template_record_type
         %td
           = f.select :record_type, RecordTemplate.record_types.map { |t| [t,t] }
           = observe_field "record_template_record_type", :function => 'toggleRecordFields(element,value);'
         %td &nbsp;
-      %tr
+      %tr.all
         %td= t :label_template_record_host
         %td= f.text_field :name
         %td &nbsp;
-      %tr
+      %tr.all
         %td= t :label_template_record_ttl
         %td= f.text_field :ttl, :size => 6
         %td &nbsp;
-      %tr.rt-mx{ :style => 'display :none' }
+      %tr.rt-mx.rt-srv{ :style => 'display :none' }
         %td= t :label_template_record_priority
         %td= f.text_field :prio, :size => 6
         %td &nbsp;
-      %tr
+      %tr.all
         %td= t :label_template_record_data
         %td= f.text_field :content
         %td &nbsp;
@@ -116,7 +116,7 @@
           = f.text_field :minimum, :size => 6
           = prototip_help_icon('help-minimum')
         %td &nbsp;
-      %tr
+      %tr.all
         %td.right= link_to_function t(:generic_cancel), "hideAll()"
         %td= submit_tag t(:generic_save)
 
@@ -144,10 +144,10 @@
   function toggleRecordFields(e,v){
     t = 'rt-' + v.toLowerCase();
     $('record-form-div').select('tr').each(function(r){
-      if(r.className && r.className != t)
-        r.hide();
-      else
+      if(r.hasClassName(t) || r.hasClassName('all'))
         r.show();
+      else
+        r.hide();
     });
   }
   function resetRecordForm() {

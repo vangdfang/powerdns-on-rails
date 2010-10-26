@@ -55,4 +55,8 @@ class MacroStep < ActiveRecord::Base
     self.action != 'remove'
   end
 
+  def supports_prio?
+    record_type == 'MX' || record_type == 'SRV'
+  end
+
 end

@@ -56,33 +56,33 @@
   - remote_form_for( [@macro, @macro_step], :html => { :id => 'record-form' } ) do |f|
     = f.hidden_field( :macro_id )
     %table.grid
-      %tr
+      %tr.all
         %td= t :label_macro_step_position
         %td= f.text_field :position, :size => 5
-      %tr
+      %tr.all
         %td= t :label_macro_step_action
         %td
           = f.select :action, MacroStep.valid_actions.map { |a| [ a.humanize, a ] }
           = prototip_info_icon( 'help.png', 'actions' )
-      %tr
+      %tr.all
         %td= t :label_domain_record_type
         %td
           = f.select :record_type, Macro.record_types.map { |t| [t,t] }
           = observe_field "macro_step_record_type", :function => 'toggleRecordFields(element,value);'
-      %tr
+      %tr.all
         %td= t :label_domain_record_host
         %td
           = f.text_field :name
           = prototip_info_icon( 'help.png', 'name-field' )
-      %tr.rt-mx{ :style => 'display :none' }
+      %tr.rt-mx.rt-srv{ :style => 'display :none' }
         %td= t :label_domain_record_priority
         %td= f.text_field :prio, :size => 6
-      %tr
+      %tr.all
         %td= t :label_domain_record_data
         %td
           = f.text_field :content
           = prototip_info_icon( 'help.png', 'content-field' )
-      %tr
+      %tr.all
         %td.right= link_to_function t(:generic_cancel), "hideAll()"
         %td= submit_tag t(:generic_save)
 
@@ -106,10 +106,10 @@
   function toggleRecordFields(e,v){
     t = 'rt-' + v.toLowerCase();
     $('record-form-div').select('tr').each(function(r){
-      if(r.className && r.className != t)
-        r.hide();
-      else
+      if(r.hasClassName(t) || r.hasClassName('all'))
         r.show();
+      else
+        r.hide();
     });
   }
   function resetRecordForm() {
